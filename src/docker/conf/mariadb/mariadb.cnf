@@ -1,0 +1,6 @@
+[mysqld]
+lower_case_table_names=1
+sql_mode=NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER
+default_time_zone=Europe/Zagreb
+max_connections = 1000
+wait_timeout = 300

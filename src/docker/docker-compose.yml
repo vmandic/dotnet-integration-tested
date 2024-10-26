@@ -1,0 +1,62 @@
+services:
+  mariadb:
+    container_name: dit_mariadb
+    image: mariadb:latest
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dotnet_integration_tested
+    ports:
+      - "3306:3306"
+    volumes:
+      - dit_mariadb_data:/var/lib/mysql
+      - ./conf/mariadb:/etc/mysql/conf.d
+    networks:
+      - dit_network
+
+  mongodb:
+    container_name: dit_mongodb
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: dotnet_integration_tested
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - dit_mongodb_data:/var/lib/mongodb
+      - ./conf/mongodb:/docker-entrypoint-initdb.d
+    networks:
+      - dit_network
+
+  redis:
+    container_name: dit_redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - dit_network
+
+  rabbitmq:
+    container_name: dit_rabbitmq
+    image: rabbitmq:management
+    ports:
+      - "15672:15672"  #Management
+      - "5672:5672"    #AMQP
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_PLUGINS=rabbitmq_shovel,rabbitmq_shovel_management
+    volumes:
+      - dit_mq_data:/var/lib/rabbitmq
+    networks:
+      - dit_network
+
+volumes:
+  dit_mariadb_data:
+  dit_mongodb_data:
+  dit_mq_data:
+
+networks:
+  dit_network:
+    driver: bridge

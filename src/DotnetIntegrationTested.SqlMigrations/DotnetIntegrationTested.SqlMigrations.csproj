@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>Documentation.xml</DocumentationFile>
+    <NoWarn>$(NoWarn),CS1573,CS1591,CS1712</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentMigrator" Version="6.2.0"/>
+    <PackageReference Include="FluentMigrator.Runner.MySql" Version="6.2.0"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2"/>
+    <PackageReference Include="MySqlConnector" Version="2.4.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetIntegrationTested.Services\DotnetIntegrationTested.Services.csproj"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="DotnetIntegrationTested.UnitTests" />
+    <InternalsVisibleTo Include="DotnetIntegrationTested.IntegrationTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSharpier.MsBuild" Version="0.29.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,87 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>Documentation.xml</DocumentationFile>
+    <NoWarn>$(NoWarn),CS1573,CS1591,CS1712</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DotnetIntegrationTested.AuthApi\DotnetIntegrationTested.AuthApi.csproj" />
+    <ProjectReference Include="..\..\src\DotnetIntegrationTested.HttpApi\DotnetIntegrationTested.HttpApi.csproj" />
+    <ProjectReference Include="..\..\src\DotnetIntegrationTested.SqlMigrations\DotnetIntegrationTested.SqlMigrations.csproj" />
+    <ProjectReference Include="..\..\src\DotnetIntegrationTested.Worker\DotnetIntegrationTested.Worker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.localhost.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.IntegrationTests.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.1" />
+    <PackageReference Include="FluentAssertions" Version="6.12.2" />
+    <PackageReference Include="IdentityModel" Version="7.0.0" />
+    <PackageReference Include="Meziantou.Extensions.Logging.Xunit" Version="1.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.20" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Nito.AsyncEx.Tasks" Version="5.1.2" />
+    <PackageReference Include="Testcontainers.MariaDb" Version="4.0.0" />
+    <PackageReference Include="Testcontainers.MongoDb" Version="4.0.0" />
+    <PackageReference Include="Testcontainers.RabbitMq" Version="4.0.0" />
+    <PackageReference Include="Testcontainers.Redis" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\src\docker\conf\mariadb\mariadb.cnf">
+      <Link>Setup\docker\mariadb\mariadb.cnf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\src\docker\conf\mongodb\init.js">
+      <Link>Setup/docker/mongodb/init.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSharpier.MsBuild" Version="0.29.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="NSubstitute" Version="5.3.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.categories" Version="2.0.8" />
+  </ItemGroup>
+
+</Project>

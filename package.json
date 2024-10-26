@@ -1,0 +1,16 @@
+{
+  "name": "dotnet-integration-tested",
+  "version": "1.0.0",
+  "description": "Demo project for modern dotnet with integration tests",
+  "repository": "git@github.com:vmandic/dotnet-integration-tested.git",
+  "author": "mandic.vedran@gmail.com",
+  "scripts": {
+    "prepare": "dotnet tool restore",
+    "format": "dotnet csharpier .",
+    "lint": "dotnet csharpier . --check",
+    "stack:up": "yarn stack:down && docker compose -f ./src/docker/docker-compose.yml up -d",
+    "stack:down": "docker compose -f ./src/docker/docker-compose.yml down -v",
+    "migrate": "dotnet run --project ./src/DotnetIntegrationTested.SqlMigrations/DotnetIntegrationTested.SqlMigrations.csproj",
+    "docker:build": "docker build -f ./test.Dockerfile -t dotnet-integration-tested ."
+  }
+}
