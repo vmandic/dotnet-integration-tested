@@ -1,5 +1,8 @@
 # dotnet-integration-tested
 
+![dotnet workflow]
+(https://github.com/vmandic/dotnet-integration-tested/actions/workflows/dotnet.yml/badge.svg)
+
 This repository contains the demo application used for a lecture: __"Building Modern and Reliable .NET Solutions Through Integration Testing"__ which will be first presented on [advtechdays.com](https://www.advtechdays.com/) Conference in Dec 2024.
 
 # Lecture summary
