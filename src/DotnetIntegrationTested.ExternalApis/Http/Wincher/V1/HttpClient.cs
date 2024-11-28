@@ -6,6 +6,7 @@ using DotnetIntegrationTested.ExternalApis.Http.Wincher.Auth.Endpoints.PostLogin
 using DotnetIntegrationTested.ExternalApis.Http.Wincher.V1.Endpoints.PostOnPageSeoChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nito.AsyncEx;
 
 namespace DotnetIntegrationTested.ExternalApis.Http.Wincher.V1;
@@ -44,6 +45,7 @@ public sealed class WincherHttpClientV1
 {
   private readonly IJsonSerializer _jsonSerializer;
   private readonly IConfiguration _config;
+  private readonly ILogger<WincherHttpClientV1> _logger;
   private readonly AsyncLock _lock = new();
   private string? _accessToken;
 
@@ -55,13 +57,15 @@ public sealed class WincherHttpClientV1
     HttpClient httpHttpClient,
     IHttpClientFactory httpClientFactory,
     IJsonSerializer jsonSerializer,
-    IConfiguration config
+    IConfiguration config,
+    ILogger<WincherHttpClientV1> logger
   )
   {
     HttpClient = httpHttpClient;
     AuthHttpClient = httpClientFactory.CreateClient(ServiceCollectionExtensions.AuthClientName);
     _jsonSerializer = jsonSerializer;
     _config = config;
+    _logger = logger;
   }
 
   public async Task<(
@@ -69,14 +73,26 @@ public sealed class WincherHttpClientV1
     HttpStatusCode HttpResonseCode
   )> PostOnPageSeoChecksAsync(PostOnPageSeoChecksRequest payload, CancellationToken ct)
   {
-    var (accessToken, _) = await PostLoginAsync(ct);
-    if (accessToken is null)
+    var skipAuth = _config.GetValue<bool>("WincherAuth:Skip");
+
+    string? accessToken = null;
+    if (!skipAuth)
     {
-      throw new UnauthorizedAccessException("API access unauthorized");
+      (accessToken, _) = await PostLoginAsync(ct);
     }
 
-    HttpClient.DefaultRequestHeaders.Remove("Authorization");
-    HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+    if (accessToken is null)
+    {
+      _logger.LogInformation("Not using Wincher auth");
+    }
+    else
+    {
+      HttpClient.DefaultRequestHeaders.Remove("Authorization");
+      if (HttpClient.DefaultRequestHeaders.Authorization is not null)
+      {
+        HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+      }
+    }
 
     var response = await HttpClient.PostAsJsonAsync(
       _config["WincherApi:Paths:PostOnPageSeoChecks"]!,

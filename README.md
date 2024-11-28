@@ -32,4 +32,45 @@ Demonstrate how to build a web based system with multiple interdependent compone
 
 # How to use
 
-- `POST /check-seo` with payload `{}`
+Setup the appsettings.json for required WincherAuth and WincherApi configs.
+
+```bash
+# signup
+curl --location 'http://localhost:5055/signup' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: ••••••' \
+--data '{
+    "Username": "test2",
+    "Password": "test"
+}'
+
+# login
+curl --location 'http://localhost:5065/login' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: ••••••' \
+--data '{
+    "Username": "test2",
+    "Password": "test"
+}'
+
+# Check if authorized
+curl --location 'http://localhost:5055/check-auth' \
+--header 'Authorization: Bearer eyJhbG...'
+
+# Make SEO check
+curl --location 'http://localhost:5055/seo-check' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbG...' \
+--data '{
+    "Url": "http://www.advtechdays.com",
+    "Keywords": ["technology"]
+}'
+
+# Read all checks
+curl --location 'http://localhost:5055/seo-checks' \
+ --header 'Authorization: Bearer eyJhbG...'
+ 
+# Read a specific SEO check
+curl --location 'http://localhost:5055/seo-check/67484a730f012a66a82b6e76' \
+ --header 'Authorization: Bearer eyJhbG...'
+```
