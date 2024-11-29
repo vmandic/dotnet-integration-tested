@@ -18,11 +18,12 @@ Presentation link: <https://slides.com/vmandic/dotnet-integration-tested>
 
 # Project and lecture goal
 
-Demonstrate how to build a web based system with multiple interdependent components and storage services whilst having each of its parts unit and integration tested.
+Demonstrate how to build a web-based system with multiple interdependent components and storage services whilst having each of its parts unit and integration tested.
         
-# .NET SDK
+# Prerequirements
 
-- `7.0.203` as set up in global.json and NuGet deps relying on it.
+-  .NET SDK `7.0.203` as set up in global.json and NuGet deps relying on it.
+-  Docker engine as we use `Testcontainers` library to start up the infrastructure in tests
 
 # How to build
 
@@ -34,13 +35,12 @@ Demonstrate how to build a web based system with multiple interdependent compone
 
 # How to use
 
-Setup the appsettings.json for required WincherAuth and WincherApi configs.
+Set up the appsettings.json for required WincherAuth and WincherApi configs.
 
 ```bash
 # signup
 curl --location 'http://localhost:5055/signup' \
 --header 'Content-Type: application/json' \
---header 'Authorization: ••••••' \
 --data '{
     "Username": "test2",
     "Password": "test"
@@ -49,7 +49,6 @@ curl --location 'http://localhost:5055/signup' \
 # login
 curl --location 'http://localhost:5065/login' \
 --header 'Content-Type: application/json' \
---header 'Authorization: ••••••' \
 --data '{
     "Username": "test2",
     "Password": "test"
